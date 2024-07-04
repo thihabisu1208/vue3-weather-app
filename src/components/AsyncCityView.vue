@@ -47,7 +47,7 @@
 		<!-- 時間単位の天気 -->
 		<div class="max-w-screen-md w-full py-12">
 			<div class="mx-8 text-white">
-				<h2 class="mb-4">時間ごとの天気</h2>
+				<h2 class="text-2xl mb-4">時間ごとの天気</h2>
 				<div class="flex gap-10 overflow-x-scroll">
 					<div
 						v-for="hourData in weatherData.hourly"
@@ -77,7 +77,7 @@
 		<!-- 週ごとの天気 -->
 		<div class="max-w-screen-md w-full py-12">
 			<div class="mx-8 text-white">
-				<h2 class="mb-4">7日間の天気予報</h2>
+				<h2 class="text-2xl mb-4">7日間の天気予報</h2>
 				<div
 					v-for="day in weatherData.daily"
 					:key="day.dt"
@@ -133,17 +133,15 @@ const getWeatherData = async () => {
 
 	try {
 		weatherData = await axios.get(
-			`https://api.openweathermap.org/data/3.0/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude=minutely&appid=${OPENWEATHER_API_KEY}&units=imperial`
+			`https://api.openweathermap.org/data/3.0/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude=minutely&appid=${OPENWEATHER_API_KEY}&units=imperial&timezone=Asia/Tokyo`
 		);
 
 		// 天気データのタイムスタンプをローカルタイムに変換します。
-		const JST_OFFSET = 9 * 60 * 60 * 1000;
-		weatherData.data.currentTime =
-			weatherData.data.current.dt * 1000 + JST_OFFSET;
+		weatherData.data.currentTime = weatherData.data.current.dt * 1000;
 
 		// 毎時の天気データのタイムスタンプをローカルタイムに変換します。
 		weatherData.data.hourly.forEach((hour) => {
-			hour.currentTime = hour.dt * 1000 + JST_OFFSET;
+			hour.currentTime = hour.dt * 1000;
 		});
 
 		await new Promise((resolve) => setTimeout(resolve, 1000));
