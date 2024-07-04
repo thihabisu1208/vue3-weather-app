@@ -14,7 +14,7 @@ import CityCard from "@/components/CityCard.vue";
 
 const router = useRouter();
 
-const OPENWEATHER_API_KEY = "d006ed7c26f68c01a847fd6b6295f92d";
+const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
 // 保存された都市のリストを保持するためのsavedCitiesリファレンスを作成します。
 const savedCities = ref([]);
